@@ -1,0 +1,24 @@
+{
+  "name": "x-embeder-tg-bot",
+  "description": "Telegram bot that replaces x.com links with stupidpenisx.com for better embeds",
+  "version": "1.0.0",
+  "main": "bot.py",
+  "scripts": {
+    "start": "python bot.py",
+    "test": "python test_bot.py"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "twitter",
+    "x.com",
+    "stupidpenisx.com",
+    "embed"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/x-embeder-tg-bot.git"
+  }
+}
