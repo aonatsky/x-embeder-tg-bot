@@ -12,6 +12,9 @@ import re
 from datetime import datetime
 from typing import List
 from urllib.parse import urlparse
+from threading import Thread
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import time
 
 from telegram import Update
 from telegram.ext import (
@@ -42,6 +45,43 @@ URL_PATTERN = re.compile(
     r'https?://(?:www\.)?(?:twitter\.com|x\.com)/\S+',
     re.IGNORECASE
 )
+
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    """Simple health check handler for Render.com"""
+    
+    def do_GET(self):
+        if self.path == '/health' or self.path == '/':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            
+            health_data = {
+                "status": "healthy",
+                "service": "X.com to StupidPenisX.com Bot",
+                "timestamp": datetime.now().isoformat(),
+                "uptime": time.time() - start_time
+            }
+            
+            self.wfile.write(str(health_data).encode())
+        else:
+            self.send_response(404)
+            self.end_headers()
+    
+    def log_message(self, format, *args):
+        # Suppress HTTP server logs
+        pass
+
+def start_health_server(port=10000):
+    """Start health check server for Render.com"""
+    try:
+        server = HTTPServer(('0.0.0.0', port), HealthCheckHandler)
+        logger.info(f"Health check server starting on port {port}")
+        server.serve_forever()
+    except Exception as e:
+        logger.error(f"Health server error: {e}")
+
+# Track start time for uptime calculation
+start_time = time.time()
 
 class XToStupidPenisXBot:
     """Main bot class for handling X.com to StupidPenisX.com link replacement"""
@@ -207,6 +247,11 @@ class XToStupidPenisXBot:
             self.application.add_error_handler(self.error_handler)
             
             logger.info("Bot starting...")
+            
+            # Start health check server in background thread for Render.com
+            port = int(os.getenv('PORT', 10000))
+            health_thread = Thread(target=start_health_server, args=(port,), daemon=True)
+            health_thread.start()
             
             # Run the bot
             self.application.run_polling(
