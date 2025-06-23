@@ -93,61 +93,52 @@ class XToStupidPenisXBot:
     async def start_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Handle /start command"""
         start_message = (
-            "🔄 **X.com Link Replacer Bot** 🔄\n\n"
+            "🔄 X.com Link Replacer Bot 🔄\n\n"
             "I automatically replace x.com links with stupidpenisx.com links for better embeds!\n\n"
-            "**How it works:**\n"
+            "How it works:\n"
             "• Add me to your group or channel\n"
             "• Give me read and send message permissions\n"
             "• I'll automatically detect x.com links and reply with stupidpenisx.com versions\n\n"
-            "**Commands:**\n"
+            "Commands:\n"
             "/start - Show this help message\n"
             "/status - Check bot status\n"
             "/help - Show help information"
         )
         
-        await update.message.reply_text(
-            start_message,
-            parse_mode='Markdown'
-        )
+        await update.message.reply_text(start_message)
         
         logger.info(f"Start command used by user {update.effective_user.id}")
 
     async def help_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Handle /help command"""
         help_message = (
-            "🆘 **Help - X.com Link Replacer Bot**\n\n"
-            "**Purpose:** Replace x.com links with stupidpenisx.com for better Twitter embeds\n\n"
-            "**Setup:**\n"
+            "🆘 Help - X.com Link Replacer Bot\n\n"
+            "Purpose: Replace x.com links with stupidpenisx.com for better Twitter embeds\n\n"
+            "Setup:\n"
             "1. Add the bot to your group/channel\n"
             "2. Grant read messages and send messages permissions\n"
             "3. The bot will automatically process messages with x.com links\n\n"
-            "**Supported Links:**\n"
+            "Supported Links:\n"
             "• x.com/username/status/123456\n"
             "• twitter.com/username/status/123456\n"
             "• Any x.com or twitter.com URL\n\n"
-            "**Privacy:** The bot only processes messages containing x.com links"
+            "Privacy: The bot only processes messages containing x.com links"
         )
         
-        await update.message.reply_text(
-            help_message,
-            parse_mode='Markdown'
-        )
+        await update.message.reply_text(help_message)
         
         logger.info(f"Help command used by user {update.effective_user.id}")
 
     async def status_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Handle /status command"""
         status_message = (
-            "✅ **Bot Status: Online**\n\n"
+            "✅ Bot Status: Online\n\n"
             f"🕐 Current time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
             "🔄 Ready to process x.com links\n"
             "📊 All systems operational"
         )
         
-        await update.message.reply_text(
-            status_message,
-            parse_mode='Markdown'
-        )
+        await update.message.reply_text(status_message)
         
         logger.info(f"Status command used by user {update.effective_user.id}")
 
@@ -206,14 +197,13 @@ class XToStupidPenisXBot:
             
             # Create response message
             if len(stupidpenisx_urls) == 1:
-                response = f"🔄 **Краще видно:**\n{stupidpenisx_urls[0]}"
+                response = f"🔄 Краще видно:\n{stupidpenisx_urls[0]}"
             else:
-                response = "🔄 **Краще видно:**\n" + "\n".join(stupidpenisx_urls)
+                response = "🔄 Краще видно:\n" + "\n".join(stupidpenisx_urls)
             
             # Reply to the original message
             await update.message.reply_text(
                 response,
-                parse_mode='Markdown',
                 disable_web_page_preview=False
             )
             
