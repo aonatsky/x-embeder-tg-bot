@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Telegram X.com to StupidPenisX.com Link Replacer Bot
+Telegram X.com to fxtwitter.com Link Replacer Bot
 
-This bot monitors messages in groups/channels and replaces x.com links with stupidpenisx.com links
+This bot monitors messages in groups/channels and replaces x.com links with fxtwitter.com links
 to provide better Twitter/X embeds.
 """
 
@@ -57,7 +57,7 @@ class HealthCheckHandler(BaseHTTPRequestHandler):
             
             health_data = {
                 "status": "healthy",
-                "service": "X.com to StupidPenisX.com Bot",
+                "service": "X.com to fxtwitter.com Bot",
                 "timestamp": datetime.now().isoformat(),
                 "uptime": time.time() - start_time
             }
@@ -83,8 +83,8 @@ def start_health_server(port=10000):
 # Track start time for uptime calculation
 start_time = time.time()
 
-class XToStupidPenisXBot:
-    """Main bot class for handling X.com to StupidPenisX.com link replacement"""
+class XToFxTwitterBot:
+    """Main bot class for handling X.com to fxtwitter.com link replacement"""
     
     def __init__(self, token: str):
         self.token = token
@@ -94,11 +94,11 @@ class XToStupidPenisXBot:
         """Handle /start command"""
         start_message = (
             "🔄 X.com Link Replacer Bot 🔄\n\n"
-            "I automatically replace x.com links with stupidpenisx.com links for better embeds!\n\n"
+            "I automatically replace x.com links with fxtwitter.com links for better embeds!\n\n"
             "How it works:\n"
             "• Add me to your group or channel\n"
             "• Give me read and send message permissions\n"
-            "• I'll automatically detect x.com links and reply with stupidpenisx.com versions\n\n"
+            "• I'll automatically detect x.com links and reply with fxtwitter.com versions\n\n"
             "Commands:\n"
             "/start - Show this help message\n"
             "/status - Check bot status\n"
@@ -113,7 +113,7 @@ class XToStupidPenisXBot:
         """Handle /help command"""
         help_message = (
             "🆘 Help - X.com Link Replacer Bot\n\n"
-            "Purpose: Replace x.com links with stupidpenisx.com for better Twitter embeds\n\n"
+            "Purpose: Replace x.com links with fxtwitter.com for better Twitter embeds\n\n"
             "Setup:\n"
             "1. Add the bot to your group/channel\n"
             "2. Grant read messages and send messages permissions\n"
@@ -161,15 +161,15 @@ class XToStupidPenisXBot:
             logger.warning(f"Error validating URL {url}: {e}")
             return False
 
-    def replace_with_stupidpenisx(self, url: str) -> str:
-        """Replace x.com or twitter.com with stupidpenisx.com"""
-        # Replace twitter.com with stupidpenisx.com
+    def replace_with_fxtwitter(self, url: str) -> str:
+        """Replace x.com or twitter.com with fxtwitter.com"""
+        # Replace twitter.com with fxtwitter.com
         if 'twitter.com' in url:
-            return url.replace('twitter.com', 'stupidpenisx.com')
+            return url.replace('twitter.com', 'fxtwitter.com')
         
-        # Replace x.com with stupidpenisx.com
+        # Replace x.com with fxtwitter.com
         if 'x.com' in url:
-            return url.replace('x.com', 'stupidpenisx.com')
+            return url.replace('x.com', 'fxtwitter.com')
         
         return url
 
@@ -192,14 +192,14 @@ class XToStupidPenisXBot:
             
             logger.info(f"Found {len(x_urls)} x.com links in message from user {user_id} in {chat_type}")
             
-            # Replace URLs with stupidpenisx.com versions
-            stupidpenisx_urls = [self.replace_with_stupidpenisx(url) for url in x_urls]
+            # Replace URLs with fxtwitter.com versions
+            fxtwitter_urls = [self.replace_with_fxtwitter(url) for url in x_urls]
             
             # Create response message
-            if len(stupidpenisx_urls) == 1:
-                response = f"🔄 Краще видно:\n{stupidpenisx_urls[0]}"
+            if len(fxtwitter_urls) == 1:
+                response = f"🔄 Краще видно:\n{fxtwitter_urls[0]}"
             else:
-                response = "🔄 Краще видно:\n" + "\n".join(stupidpenisx_urls)
+                response = "🔄 Краще видно:\n" + "\n".join(fxtwitter_urls)
             
             # Reply to the original message
             await update.message.reply_text(
@@ -207,7 +207,7 @@ class XToStupidPenisXBot:
                 disable_web_page_preview=False
             )
             
-            logger.info(f"Successfully replied with {len(stupidpenisx_urls)} stupidpenisx.com links")
+            logger.info(f"Successfully replied with {len(fxtwitter_urls)} fxtwitter.com links")
             
         except Exception as e:
             logger.error(f"Error handling message: {e}")
@@ -268,11 +268,11 @@ def main():
         return
     
     # Create and run bot
-    bot = XToStupidPenisXBot(bot_token)
+    bot = XToFxTwitterBot(bot_token)
     
     try:
-        logger.info("Starting X.com to StupidPenisX.com Link Replacer Bot...")
-        print("🚀 Starting X.com to StupidPenisX.com Link Replacer Bot...")
+        logger.info("Starting X.com to fxtwitter.com Link Replacer Bot...")
+        print("🚀 Starting X.com to fxtwitter.com Link Replacer Bot...")
         print("Press Ctrl+C to stop the bot")
         
         bot.run()

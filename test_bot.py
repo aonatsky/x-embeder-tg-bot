@@ -62,6 +62,9 @@ def test_url_replacement():
         # URLs with parameters
         "With params: https://x.com/username/status/1234567890?s=20&t=abc123",
         
+        # Complex URL that caused Markdown parsing issues
+        "Complex URL: https://x.com/oheekoltsd/status/1936141854073864304?s=46&t=Ra8xRnsUO7hQBtvtIj8a_w",
+        
         # HTTP vs HTTPS
         "HTTP: http://x.com/username/status/1234567890",
         
