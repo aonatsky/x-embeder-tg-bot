@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Telegram X.com to fxtwitter.com Link Replacer Bot
+Telegram X.com Link Replacer Bot
 
-This bot monitors messages in groups/channels and replaces x.com links with fxtwitter.com links
+This bot monitors messages in groups/channels and replaces x.com links with configurable domain links
 to provide better Twitter/X embeds.
 """
 
@@ -40,6 +40,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Configuration
+REPLACEMENT_DOMAIN = "fxtwitter.com"  # Change this to any domain you want
+
 # URL detection pattern for x.com and twitter.com
 URL_PATTERN = re.compile(
     r'https?://(?:www\.)?(?:twitter\.com|x\.com)/\S+',
@@ -57,7 +60,7 @@ class HealthCheckHandler(BaseHTTPRequestHandler):
             
             health_data = {
                 "status": "healthy",
-                "service": "X.com to fxtwitter.com Bot",
+                "service": f"X.com to {REPLACEMENT_DOMAIN} Bot",
                 "timestamp": datetime.now().isoformat(),
                 "uptime": time.time() - start_time
             }
@@ -83,8 +86,8 @@ def start_health_server(port=10000):
 # Track start time for uptime calculation
 start_time = time.time()
 
-class XToFxTwitterBot:
-    """Main bot class for handling X.com to fxtwitter.com link replacement"""
+class XToReplacementBot:
+    """Main bot class for handling X.com link replacement"""
     
     def __init__(self, token: str):
         self.token = token
@@ -94,11 +97,11 @@ class XToFxTwitterBot:
         """Handle /start command"""
         start_message = (
             "🔄 X.com Link Replacer Bot 🔄\n\n"
-            "I automatically replace x.com links with fxtwitter.com links for better embeds!\n\n"
+            f"I automatically replace x.com links with {REPLACEMENT_DOMAIN} links for better embeds!\n\n"
             "How it works:\n"
             "• Add me to your group or channel\n"
             "• Give me read and send message permissions\n"
-            "• I'll automatically detect x.com links and reply with fxtwitter.com versions\n\n"
+            f"• I'll automatically detect x.com links and reply with {REPLACEMENT_DOMAIN} versions\n\n"
             "Commands:\n"
             "/start - Show this help message\n"
             "/status - Check bot status\n"
@@ -113,7 +116,7 @@ class XToFxTwitterBot:
         """Handle /help command"""
         help_message = (
             "🆘 Help - X.com Link Replacer Bot\n\n"
-            "Purpose: Replace x.com links with fxtwitter.com for better Twitter embeds\n\n"
+            f"Purpose: Replace x.com links with {REPLACEMENT_DOMAIN} for better Twitter embeds\n\n"
             "Setup:\n"
             "1. Add the bot to your group/channel\n"
             "2. Grant read messages and send messages permissions\n"
@@ -161,15 +164,15 @@ class XToFxTwitterBot:
             logger.warning(f"Error validating URL {url}: {e}")
             return False
 
-    def replace_with_fxtwitter(self, url: str) -> str:
-        """Replace x.com or twitter.com with fxtwitter.com"""
-        # Replace twitter.com with fxtwitter.com
+    def replace_with_custom_domain(self, url: str) -> str:
+        """Replace x.com or twitter.com with the configured replacement domain"""
+        # Replace twitter.com with replacement domain
         if 'twitter.com' in url:
-            return url.replace('twitter.com', 'fxtwitter.com')
+            return url.replace('twitter.com', REPLACEMENT_DOMAIN)
         
-        # Replace x.com with fxtwitter.com
+        # Replace x.com with replacement domain
         if 'x.com' in url:
-            return url.replace('x.com', 'fxtwitter.com')
+            return url.replace('x.com', REPLACEMENT_DOMAIN)
         
         return url
 
@@ -192,14 +195,14 @@ class XToFxTwitterBot:
             
             logger.info(f"Found {len(x_urls)} x.com links in message from user {user_id} in {chat_type}")
             
-            # Replace URLs with fxtwitter.com versions
-            fxtwitter_urls = [self.replace_with_fxtwitter(url) for url in x_urls]
+            # Replace URLs with custom domain versions
+            replacement_urls = [self.replace_with_custom_domain(url) for url in x_urls]
             
             # Create response message
-            if len(fxtwitter_urls) == 1:
-                response = f"🔄 Краще видно:\n{fxtwitter_urls[0]}"
+            if len(replacement_urls) == 1:
+                response = f"🔄 Краще видно:\n{replacement_urls[0]}"
             else:
-                response = "🔄 Краще видно:\n" + "\n".join(fxtwitter_urls)
+                response = "🔄 Краще видно:\n" + "\n".join(replacement_urls)
             
             # Reply to the original message
             await update.message.reply_text(
@@ -207,7 +210,7 @@ class XToFxTwitterBot:
                 disable_web_page_preview=False
             )
             
-            logger.info(f"Successfully replied with {len(fxtwitter_urls)} fxtwitter.com links")
+            logger.info(f"Successfully replied with {len(replacement_urls)} {REPLACEMENT_DOMAIN} links")
             
         except Exception as e:
             logger.error(f"Error handling message: {e}")
@@ -268,11 +271,11 @@ def main():
         return
     
     # Create and run bot
-    bot = XToFxTwitterBot(bot_token)
+    bot = XToReplacementBot(bot_token)
     
     try:
-        logger.info("Starting X.com to fxtwitter.com Link Replacer Bot...")
-        print("🚀 Starting X.com to fxtwitter.com Link Replacer Bot...")
+        logger.info(f"Starting X.com to {REPLACEMENT_DOMAIN} Link Replacer Bot...")
+        print(f"🚀 Starting X.com to {REPLACEMENT_DOMAIN} Link Replacer Bot...")
         print("Press Ctrl+C to stop the bot")
         
         bot.run()

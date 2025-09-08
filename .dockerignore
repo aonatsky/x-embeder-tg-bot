@@ -1,0 +1,55 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+CHANGELOG.md
+DEPLOY_*.md
+RENDER_FIX.md
+PROJECT_SUMMARY.md
+*.md
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs (will be mounted as volume)
+logs/*.log
+
+# Environment files (should be set via environment variables)
+.env
+.env.local
+.env.example
+
+# Test files
+test_bot.py
+check_*.py
+demo.py
+setup.py
+
+# Deployment configs for other platforms
+railway.toml
+render.yaml
+package.json
+
+# Development scripts
+*.sh
